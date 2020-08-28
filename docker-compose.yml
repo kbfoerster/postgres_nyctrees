@@ -7,7 +7,7 @@ services:
     image: postgres
     hostname: postgres
     restart: always
-    container_name: db
+    container_name: postgres
     networks:
         - postdb
     expose:
@@ -21,6 +21,7 @@ services:
 
   pgadmin:
     container_name: pgadmin
+    hostname: pgadmin
     image: dpage/pgadmin4
     restart: always
     networks:
