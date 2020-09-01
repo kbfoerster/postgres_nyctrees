@@ -15,7 +15,7 @@ services:
     ports:
         - 5432:5432
     volumes:
-        - ./data:/var/lib/postgresql/data
+        - "./data/data.csv:/usr/share/data/data.csv"
     environment:
       POSTGRES_PASSWORD: secure_p4ssw0rd
 
@@ -29,7 +29,8 @@ services:
     ports: 
         - 5050:5050
     volumes:
-        - pgadmin:/root/.pgadmin
+        - "pgadmin:/root/.pgadmin"
+        - "./data/data.csv:/usr/share/data/data.csv"
     environment:
         PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgad@pgadmin.org}
         PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-p4ssw0rd}
