@@ -1,8 +1,42 @@
 CREATE SCHEMA IF NOT EXISTS nyctrees AUTHORIZATION postgres;
 
+CREATE TABLE IF NOT EXISTS nyctrees.temp_import (
+	nta varchar (4),
+	ntaname VARCHAR (40),
+	boroct INT,
+	borocode INT, 
+	boroname VARCHAR (15),
+	cncldist INT,
+	infguard BOOLEAN,
+	infshoes BOOLEAN,
+	latitude REAL,
+	longitude REAL,
+	sidwcrack BOOLEAN,
+	stassem INT,
+	stsenate INT,
+	healthstatus VARCHAR (5),
+	tree_dbh INT,
+	x_sp REAL,
+	y_sp REAL,
+	zipcity VARCHAR(25),
+	zipcode INT,
+	year INT,
+	income REAL,
+	education REAL,
+	population REAL,
+	unemployment REAL,
+	popdensity REAL,
+	laborforce REAL,
+	poverty REAL,
+	diversity REAL,
+	genus VARCHAR (25),
+	species VARCHAR (25),
+	ntanamefull VARCHAR (65)
+);
+
 CREATE TABLE IF NOT EXISTS nyctrees.healthstatus (
 	ID SERIAL PRIMARY KEY,
-	healthstatus boolean NOT NULL
+	healthstatus VARCHAR (5) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS nyctrees.neighborhood_specific (
@@ -18,28 +52,36 @@ CREATE TABLE IF NOT EXISTS nyctrees.neighborhood_broad (
 
 CREATE TABLE IF NOT EXISTS nyctrees.census (
 	ID SERIAL PRIMARY KEY,
-	income INT NOT NULL,
-	education INT NOT NULL,
-	population INT NOT NULL,
-	unemployment INT NOT NULL,
-	popdensity INT NOT NULL,
-	laborforce INT NOT NULL,
-	poverty INT NOT NULL,
-	diversity INT NOT NULL
+	income REAL NOT NULL,
+	education REAL NOT NULL,
+	population REAL NOT NULL,
+	unemployment REAL NOT NULL,
+	popdensity REAL NOT NULL,
+	laborforce REAL NOT NULL,
+	poverty REAL NOT NULL,
+	diversity REAL NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS nyctrees.boro (
+CREATE TABLE IF NOT EXISTS nyctrees.boroct (
 	ID SERIAL PRIMARY KEY,
 	boroct INT NOT NULL,
-	borocode INT NOT NULL,
-	boroname VARCHAR (15) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS nyctrees.zip (
+CREATE TABLE IF NOT EXISTS nyctrees.borocode (
 	ID SERIAL PRIMARY KEY,
-	zipcity VARCHAR (25) NOT NULL,
-	zipcode INT NOT NULL
+	borocode INT NOT NULL,
+	boroname VARCHAR (15) NOT NULL
+)
+
+CREATE TABLE IF NOT EXISTS nyctrees.zipcity (
+	ID SERIAL PRIMARY KEY,
+	zipcity VARCHAR (25) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS nyctrees.zipcode (
+	ID SERIAL PRIMARY KEY,
+	zipcode INT NOT NULL
+)
 
 CREATE TABLE IF NOT EXISTS nyctrees.year (
 	ID SERIAL PRIMARY KEY,
@@ -97,14 +139,16 @@ CREATE TABLE IF NOT EXISTS nyctrees.facts (
 	genus_id INT REFERENCES nyctrees.genus(ID),
 	species_id INT REFERENCES nyctrees.species(ID),
 	census_id INT REFERENCES nyctrees.census(ID),
-	boro_id INT REFERENCES nyctrees.boro(ID),
-	zip_id INT REFERENCES nyctrees.zip(ID),
+	boroct_id INT REFERENCES nyctrees.boroct(ID),
+	borocode_id INT REFERENCES nyctrees.borocode(ID),
+	zipcity_id INT REFERENCES nyctrees.zipcity(ID),
+	zipcode_id INT REFERENCES nyctrees.zipcode(ID),
 	year_id INT REFERENCES nyctrees.year(ID),
 	ntafull_id INT REFERENCES nyctrees.neighborhood_specific(ID),
 	nta_id INT REFERENCES nyctrees.neighborhood_broad(ID),
 	tree_dbh INT NOT NULL,
-	longitude INT NOT NULL,
-	latitude INT NOT NULL,
-	x_sp INT NOT NULL,
-	y_sp INT NOT NULL
+	longitude REAL NOT NULL,
+	latitude REAL NOT NULL,
+	x_sp REAL NOT NULL,
+	y_sp REAL NOT NULL
 );
