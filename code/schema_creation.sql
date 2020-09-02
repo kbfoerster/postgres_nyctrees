@@ -9,15 +9,15 @@ CREATE TABLE IF NOT EXISTS nyctrees.temp_import (
 	cncldist INT,
 	infguard BOOLEAN,
 	infshoes BOOLEAN,
-	latitude REAL,
-	longitude REAL,
+	longitude NUMERIC(10,8),
+	latitude NUMERIC(10,8),
 	sidwcrack BOOLEAN,
 	stassem INT,
 	stsenate INT,
 	healthstatus VARCHAR (5),
 	tree_dbh INT,
-	x_sp REAL,
-	y_sp REAL,
+	x_sp NUMERIC(13,6),
+	y_sp NUMERIC(13,6),
 	zipcity VARCHAR(25),
 	zipcode INT,
 	year INT,
@@ -41,12 +41,12 @@ CREATE TABLE IF NOT EXISTS nyctrees.healthstatus (
 
 CREATE TABLE IF NOT EXISTS nyctrees.neighborhood_specific (
 	ID SERIAL PRIMARY KEY,
+	ntacode VARCHAR(4) NOT NULL,
 	ntanamefull VARCHAR(65) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS nyctrees.neighborhood_broad (
 	ID SERIAL PRIMARY KEY,
-	ntacode VARCHAR(4) NOT NULL,
 	ntaname VARCHAR (40) NOT NULL
 );
 
@@ -147,8 +147,8 @@ CREATE TABLE IF NOT EXISTS nyctrees.facts (
 	ntafull_id INT REFERENCES nyctrees.neighborhood_specific(ID),
 	nta_id INT REFERENCES nyctrees.neighborhood_broad(ID),
 	tree_dbh INT NOT NULL,
-	longitude REAL NOT NULL,
-	latitude REAL NOT NULL,
-	x_sp REAL NOT NULL,
-	y_sp REAL NOT NULL
+	longitude NUMERIC(10,8) NOT NULL,
+	latitude NUMERIC(10,8) NOT NULL,
+	x_sp NUMERIC(13,6) NOT NULL,
+	y_sp NUMERIC (13,6) NOT NULL
 );
