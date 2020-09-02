@@ -51,14 +51,14 @@ ON CONFLICT DO NOTHING;
 
 
 -- Copying from temp to neighborhood_broad
-INSERT INTO nyctrees.neighborhood_broad (nta_code, ntaname)
-SELECT DISTINCT nta, ntaname
+INSERT INTO nyctrees.neighborhood_broad (ntaname)
+SELECT DISTINCT ntaname
 FROM nyctrees.temp_import
 ON CONFLICT DO NOTHING;
 
 -- Copying from temp to neighborhood_specific
-INSERT INTO nyctrees.neighborhood_specific (ntaname_full)
-SELECT DISTINCT ntanamefull
+INSERT INTO nyctrees.neighborhood_specific (ntacode, ntanamefull)
+SELECT DISTINCT nta, ntanamefull
 FROM nyctrees.temp_import
 ON CONFLICT DO NOTHING;
 
@@ -99,3 +99,7 @@ FROM nyctrees.temp_import
 ON CONFLICT DO NOTHING;
 
 -- Copying from temp to zipcode
+INSERT INTO nyctrees.zipcode (zipcode)
+SELECT DISTINCT zipcode
+FROM nyctrees.temp_import
+ON CONFLICT DO NOTHING;
