@@ -25,5 +25,12 @@ JOIN nyctrees.st_senate se ON senate_id = se.id
 JOIN nyctrees.cncldist cn ON cncldist_id = cn.id
 JOIN nyctrees.boroct bt ON boroct_id = bt.id
 JOIN nyctrees.borocode bc ON borocode_id = bc.id
-JOIN nyctrees.year ye ON year_id = ye.id
-LIMIT 10;
+JOIN nyctrees.year ye ON year_id = ye.id;
+
+-- Creating view for census information on neighborhoods by year
+CREATE VIEW neighborhood_census AS 
+SELECT DISTINCT nb.ntaname, ye.year, ce.income, ce.education, ce.population, ce.unemployment, ce.popdensity, ce.laborforce, ce.poverty, ce.diversity
+FROM facts
+JOIN neighborhood_broad nb ON nta_id = nb.id
+JOIN year ye ON year_id = ye.id
+JOIN census ce ON census_id = ce.id;
