@@ -11,3 +11,7 @@ con = dbConnect(
   dbname = "postgres"
 )
 
+locations = dbGetQuery(con, 'SELECT * FROM nyctrees.locations')
+census = dbGetQuery(con, 'SELECT * FROM nyctrees.neighborhood_census')
+trees = dbGetQuery(con, 'SELECT * FROM nyctrees.trees')
+#dbDisconnect(con)
