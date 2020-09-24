@@ -2,7 +2,7 @@ SET search_path TO nyctrees;
 
 -- Creating view for information specifically about trees
 CREATE VIEW trees AS 
-SELECT ge.genus, sp.species, he.healthstatus, gu.infguard, sh.infshoes, cr.sidwcrack, ye.year, nf.ntanamefull
+SELECT ge.genus, sp.species, tree_dbh, he.healthstatus, gu.infguard, sh.infshoes, cr.sidwcrack, ye.year, nf.ntanamefull
 FROM facts
 JOIN genus ge ON genus_id = ge.id
 JOIN species sp ON species_id = sp.id
