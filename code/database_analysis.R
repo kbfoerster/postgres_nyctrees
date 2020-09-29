@@ -47,16 +47,6 @@ ggplot(data=top_species, aes(x=reorder(species, count), count)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
   labs(title="Top 15 Species Counts in 2015", y="Count", x="Genus")
 
-# top_locations = dbGetQuery(con, 'SELECT ntanamefull, COUNT(ntanamefull) FROM nyctrees.trees WHERE year=2015 GROUP BY ntanamefull ORDER BY COUNT(ntanamefull) DESC LIMIT 25')
-# 
-# ggplot(data=top_locations, aes(x=reorder(ntanamefull, count), y=count)) + 
-#   geom_bar(stat="identity", fill="darkgreen") + 
-#   geom_text(aes(label=count), hjust=-0.3, size=3.5) +
-#   scale_y_continuous(limits=c(0,11500)) + 
-#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-#   labs(title="Top 25 Neighborhood Counts in 2015", y="Count", x="Neighborhood") +
-#   coord_flip()
-
 annadale_species = dbGetQuery(con, "SELECT species, COUNT(species) FROM nyctrees.trees WHERE year = 2015 AND ntanamefull = 'Annadale-Huguenot-Prince''s Bay-Eltingville' GROUP BY species ORDER BY COUNT(species) DESC LIMIT 10")
 
 ggplot(data=annadale_species, aes(x=reorder(species, count), y=count)) + 
@@ -79,6 +69,8 @@ dbGetQuery(con, "SELECT 3*stddev(tree_dbh) FROM nyctrees.trees AS t (stddev) WHE
 dbh_dist = dbGetQuery(con, 'SELECT  tree_dbh FROM nyctrees.trees WHERE year = 2015 AND tree_dbh < 27')
 
 #### Visualizing 'locations' view ####
+head(locations)
+
 
 top_zipcity = dbGetQuery(con, 'SELECT zipcity, COUNT(zipcity) FROM nyctrees.locations WHERE year=2015 GROUP BY zipcity ORDER BY COUNT(zipcity) DESC LIMIT 7')
 
@@ -94,7 +86,17 @@ ggplot(data=top_zipcity, aes(x=reorder(zipcity, count), y=count)) +
 zip_labs = paste(top_zipcity$zipcity, " - ", round(100*top_zipcity$count/sum(top_zipcity$count), 1), "%")
 pie(top_zipcity$count, labels=zip_labs, col=rainbow(length(top_zipcity$zipcity)), main= "Tree count by Zipcities")
 
+#### Visualizing 'Census' view ####
+head(census)
+# Education source http://app.coredata.nyc/?mlb=false&ntii=&ntr=&mz=14&vtl=https%3A%2F%2Fthefurmancenter.carto.com%2Fu%2Fnyufc%2Fapi%2Fv2%2Fviz%2F98d1f16e-95fd-4e52-a2b1-b7abaf634828%2Fviz.json&mln=false&mlp=true&mlat=40.718&ptsb=&nty=&mb=roadmap&pf=%7B%22subsidies%22%3Atrue%7D&md=map&mlv=false&mlng=-73.996&btl=Borough&atp=properties
 
 
+education_distribution = dbGetQuery(con, 'SELECT education FROM nyctrees.neighborhood_census WHERE year=2015')
+
+ggplot(data=education_distribution, aes(x=education)) +
+  geom_histogram(fill="darkblue") + 
+  scale_y_continuous(limits=c(0,10), breaks=1:10) +
+  #scale_x_discrete(breaks=0.01:0.9) +
+  labs(title="Histogram of Education for Neighborhoods in 2015", y="Count", x="Education (Ratio of Population Aged 25+ with Bachelor's or Higher)")
 
 dbDisconnect(con)
