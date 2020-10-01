@@ -35,7 +35,7 @@ Using the 'trees' view, we can see the top genera of the trees in our database.
 
 With this same 'trees' view, we can also see a histogram of the tree_dbh attribute across our dataset. 
 
-![Tree Diameter at Breast Height Distribution](/Images/tree_dbh_histrogram.png)
+![Tree Diameter at Breast Height Distribution](/Images/tree_dbh_histogram.png)
 
 Using the 'locations' view, we can see the distribution of trees based on zipcity counts. 
 
